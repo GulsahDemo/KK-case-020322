@@ -1,0 +1,24 @@
+<td>
+    {{!-- find movie poster path and send set-url --}}
+    <img style="background-image:url({{set-url "url"}})"/> 
+    <p>{{'title'}}</p>
+</td>
+<td>
+    <p><span class={{statusClass}}>{{concat '%'calculateToPercentage}}</span></p>
+</td>
+<td>
+    <p>{{'vote_count'}}</p>
+</td>
+<td>
+    <p>
+        {{!-- {{#each array as |genre|}}
+            <span>{{genre.name}}</span>
+        {{/each}} --}}
+    </p>
+</td>
+<td>
+    <p>{{'overview'}}</p>
+</td>
+<td>
+    <p>{{'original_language'}}</p>
+</td>

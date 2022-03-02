@@ -1,0 +1,19 @@
+<div class="table-area">
+    <div>
+        <thead>
+            <tr>
+                <th>Movie Name</th>
+                <th>Rate</th>
+                <th>Vote Count</th>
+                <th>Types</th>
+                <th>Overview</th>
+                <th>Language</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each movies as |movie|}}
+              {{movie/index-table-row movie=movie}}
+            {{/each}}
+        </tbody>
+    </div>
+</div>

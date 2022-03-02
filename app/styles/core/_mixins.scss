@@ -1,0 +1,429 @@
+/*
+
+
+IMPORTANT:
+==========
+YOU SHOULD NOT EDIT THE FILE in addon directory, instead edit the one in the app directory.
+
+WHAT'S GOING ON:
+================
+this file is automatically copied from the app/styles/core directory to addon/styles/core directory
+
+files in the app directory are copied into the addons output, so they can be used as if
+they are part of the consuming application.
+
+this enables us to use any scss construct defined in these files (variables, mixins, etc) in
+the parent app. in other words we are kind of exporting these scss files. (see
+'Alternative Addon Usage' section at https://github.com/aexmachina/ember-cli-sass for more info)
+
+however these files are also needed during the addon build process since the scss constructs are
+used in components' style files as well. that means, we need to keep these files in the
+app directory and keep a copy in the addon directory.
+
+to use the exported files, add @import 'ui-library' in the application's scss file
+
+HOW:
+====
+the copy operation is triggered in the preBuild hook of index.js file.
+if you add an scss file in the app/styles/core directory it should be automatically created in
+the addon directory as well.
+however if you delete a file in the app directory, you should manually remove it from the addon dir.
+
+
+
+
+*/
+// Mixins
+@mixin animation($properties) {
+  -webkit-animation: $properties;
+  -moz-animation: $properties;
+  -o-animation: $properties;
+  animation: $properties;
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} { @content; }
+  @-moz-keyframes #{$animationName} { @content; }
+  @-o-keyframes #{$animationName} { @content; }
+  @keyframes #{$animationName} { @content; }
+}
+
+@mixin border-radius($radius:$border-radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-sizing($property) {
+  -webkit-box-sizing: $property;
+  -moz-box-sizing: $property;
+  box-sizing: $property;
+}
+
+@mixin box-shadow($properties) {
+  -webkit-box-shadow: $properties;
+  -moz-box-shadow: $properties;
+  box-shadow: $properties;
+}
+
+@mixin shadowBox {
+  border: 1px solid $c-bgDarker;
+  background-color: $c-bgWhite;
+  @include border-radius($border-radius/2);
+  @include box-shadow(0 3px 6px $c-bgDarker);
+}
+
+@mixin flex-end {
+  // flexbox pull all contents to right
+  justify-content: flex-end;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  text-align: end;
+}
+
+@mixin cursor-grab(){
+  cursor: move;
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+@mixin cursor-grabbing(){
+  cursor: move;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+@mixin placeholder-color($color) {
+  // standards compliant browsers
+  &::input-placeholder {
+    color: $color;
+  }
+  // newer versions of Firefox, remove browser's default opacity style
+  &::-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+  // older versions of Firefox, remove browser's default opacity style
+  &:-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+  // decent ie versions
+  &::-ms-input-placeholder {
+    color: $color;
+  }
+  // chrome and safari
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &.placeholder {
+    color: $color;
+  }
+}
+
+@mixin transform($properties) {
+  -webkit-transform: $properties;
+  -moz-transform: $properties;
+  -ms-transform: $properties;
+  -o-transform: $properties;
+  transform: $properties;
+}
+
+@mixin transform-origin($properties) {
+  -webkit-transform-origin: $properties;
+  -moz-transform-origin: $properties;
+  -ms-transform-origin: $properties;
+  -o-transform-origin: $properties;
+  transform-origin: $properties;
+}
+
+@mixin vertical-gradient($from, $to) {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $from), color-stop(100%, $to));
+  background: -webkit-linear-gradient(top, $from, $to);
+  background: -moz-linear-gradient(top, $from, $to);
+  background: -ms-linear-gradient(top, $from, $to);
+  background: -o-linear-gradient(top, $from, $to);
+  background: linear-gradient(to bottom, $from, $to);
+}
+
+@mixin vertical-center {
+  position: relative;
+  top: 45%;
+  // float number reduces antialiasing of 1px borders
+  -webkit-transform: translateY(-45.7%);
+  -ms-transform: translateY(-45.7%);
+  transform: translateY(-45.7%);
+}
+
+@mixin not-selectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+@mixin clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin drop-ie-gradient {
+  filter: unquote("progid:DXImageTransform.Microsoft.gradient(enabled = false)");
+}
+
+@mixin transition($property, $duration: 0.66s, $style: cubic-bezier(0.25, 1, 0.25, 1)) {
+  -webkit-transition-property: $property;
+  -webkit-transition-duration: $duration;
+  -webkit-transition-timing-function: $style;
+  -moz-transition-property: $property;
+  -moz-transition-duration: $duration;
+  -moz-transition-timing-function: $style;
+  -ms-transition-property: $property;
+  -ms-transition-duration: $duration;
+  -ms-transition-timing-function: $style;
+  -o-transition-property: $property;
+  -o-transition-duration: $duration;
+  -o-transition-timing-function: $style;
+  transition-property: $property;
+  transition-duration: $duration;
+  transition-timing-function: $style;
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/CSS/transition-delay
+@mixin transition-delay($delay) {
+  -webkit-transition-delay: $delay;
+  -moz-transition-delay: $delay;
+  -o-transition-delay: $delay;
+  transition-delay: $delay;
+}
+
+// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
+//
+// grayscale      ex: filter: grayscale(100%);
+// sepia          ex: filter: sepia(100%);
+// saturate       ex: filter: saturate(0%);
+// hue-rotate     ex: filter: hue-rotate(45deg);
+// invert         ex: filter: invert(100%);
+// brightness     ex: filter: brightness(15%);
+// contrast       ex: filter: contrast(200%);
+// blur           ex: filter: blur(2px);
+
+@mixin filter($filter-type,$filter-amount) {
+  -webkit-filter: $filter-type+unquote('(#{$filter-amount})');
+  -moz-filter: $filter-type+unquote('(#{$filter-amount})');
+  -ms-filter: $filter-type+unquote('(#{$filter-amount})');
+  -o-filter: $filter-type+unquote('(#{$filter-amount})');
+  filter: $filter-type+unquote('(#{$filter-amount})');
+}
+
+@mixin word-break {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+@mixin truncatedText($max-width:100%) {
+  max-width: $max-width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin truncatedTdText {
+  display: inline-block;
+  @include truncatedText;
+  vertical-align: bottom;
+}
+
+// Single side border-radius
+@mixin border-top-radius($radius:$border-radius) {
+  border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+}
+@mixin border-right-radius($radius:$border-radius) {
+  border-bottom-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin border-bottom-radius($radius:$border-radius) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+@mixin border-left-radius($radius:$border-radius) {
+  border-bottom-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+// Retina images
+//
+// Short retina mixin for setting background-image and -size
+@mixin img-retina($file-1x, $file-2x, $width-1x, $height-1x) {
+  background-image: image-url("#{$file-1x}");
+
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (   min--moz-device-pixel-ratio: 2),
+  only screen and (     -o-min-device-pixel-ratio: 2/1),
+  only screen and (        min-device-pixel-ratio: 2),
+  only screen and (                min-resolution: 192dpi),
+  only screen and (                min-resolution: 2dppx) {
+    background-image: image-url("#{$file-2x}");
+    background-size: $width-1x $height-1x;
+  }
+}
+
+// Typography mixins
+
+@mixin fa-pseudoIcon($content) {
+  content: $content;
+  font-size: 1.4rem;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+@mixin font-sbc {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: $grey-600;
+}
+
+@mixin font-condensed {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+
+@mixin a-colors($new-color, $hover-color:$c-accent) {
+  color: $new-color;
+  &:hover, &.isActive, &.active {
+    color: $hover-color;
+  }
+}
+
+// Rotate 360 degrees forever
+@include keyframes(rotate) {
+  from {-webkit-transform: rotate(0deg);}
+  to {-webkit-transform: rotate(360deg);}
+}
+@mixin rotate () {
+  @include animation(rotate 1s infinite steps(8));
+}
+
+// Blink fade in and out forever
+@include keyframes(blink) {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@mixin blink () {
+  @include animation(blink 1s infinite ease-in-out);
+}
+
+
+// css only triangle (arrow) for boxes
+@mixin cssTriangle($size, $color, $direction) {
+  &:before {
+    // defining opposite direction
+    $direction-map: ( 'top': 'bottom', 'right': 'left', 'bottom': 'top', 'left': 'right' );
+    $opposite-direction: map-get($direction-map, $direction);
+
+    content: "";
+    position: absolute;
+    #{$opposite-direction}: 100%;
+    display: block;
+    width: 0;
+    height: 0;
+    border: solid $size transparent;
+    border-#{$opposite-direction}-color: $color;
+    @if ($direction == top or $direction == bottom) {
+      left: 50%;
+      margin-left: -$size;
+    }
+    @if ($direction == left or $direction == right) {
+      top: 50%;
+      margin-top: -$size;
+    }
+    // .example { @include cssTriangle(5px, #fff, bottom); }
+  }
+}
+
+@mixin scrollShadows($bgcolor: $c-bgWhite, $shadowcolor: rgba($c-text, 0.1)) {
+  background:
+    // scroll shadow covers
+    linear-gradient($bgcolor 30%, rgba($bgcolor,0)),
+    linear-gradient(rgba($bgcolor,0), $bgcolor 70%) 0 100%,
+      // scroll shadows
+    linear-gradient($shadowcolor 0, rgba($shadowcolor,0)) 100% 0,
+    linear-gradient(rgba($shadowcolor,0) 0, $shadowcolor) 0 100%;
+
+  background-repeat: no-repeat;
+  background-color: $bgcolor;
+  background-size: 100% 50px, 100% 50px, 100% 6px, 100% 6px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+@mixin reColor($color: #000, $opacity: 1) {
+  $r: red($color) / 255;
+  $g: green($color) / 255;
+  $b: blue($color) / 255;
+  $a: $opacity;
+
+  // grayscale fallback if SVG from data url is not supported
+  $lightness: lightness($color);
+  filter: saturate(0%) brightness(0%) invert($lightness) opacity($opacity);
+
+  // color filter
+  $svg-filter-id: "recolor";
+  filter: url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg">\
+    <filter id="#{$svg-filter-id}" color-interpolation-filters="sRGB">\
+      <feColorMatrix type="matrix" values="\
+        0 0 0 0 #{$r}\
+        0 0 0 0 #{$g}\
+        0 0 0 0 #{$b}\
+        0 0 0 #{$a} 0\
+      "/>\
+    </filter>\
+  </svg>\
+  ##{$svg-filter-id}');
+}
+
+@mixin avatar-cover(
+  $minw: 45px,
+  $maxw: 45px,
+  $minh: 45px,
+  $maxh: 45px,
+  $br: 100%,
+) {
+  min-width: $minw;
+  max-width: $maxw;
+  min-height: $minh;
+  max-height: $maxh;
+  background-position: center center;
+  background-size: cover;
+  @include border-radius($br);
+}
+
+@mixin border-cover(
+  $brw: 2px,
+  $brc: $phx-greyscale-500,
+  $brbc: transparent
+) {
+  border: $brw solid $brc;
+  background-color: $brbc;
+}
